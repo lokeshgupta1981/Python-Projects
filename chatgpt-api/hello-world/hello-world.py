@@ -5,7 +5,7 @@ client = OpenAI(
   api_key=os.environ.get("OPENAI_API_KEY")
 )
 
-question = input("What would you like to ask ChatGPT?")
+question = input("Ask me anything: ")
 
 response = client.chat.completions.create(
   messages=[
@@ -15,7 +15,10 @@ response = client.chat.completions.create(
     }
   ],
   model="gpt-3.5-turbo",
-  temperature=0
+  temperature=0,
+  max_tokens=1024,
+  n=1,
+  stop=None
 )
 
 print(response)

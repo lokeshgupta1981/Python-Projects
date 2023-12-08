@@ -22,7 +22,7 @@ async def main(question) -> ChatCompletion:
   return response
 
 
-question = input("What would you like to ask ChatGPT?")
+question = input("Ask me anything: ")
 response = asyncio.run(main(question))
 print(response)
 
