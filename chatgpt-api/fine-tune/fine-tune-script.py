@@ -6,8 +6,10 @@ client = OpenAI(
   api_key=os.environ.get("OPENAI_API_KEY")
 )
 
-input_json_file = 'input_data.json'
 input_jsonl_file = 'input_data.jsonl'
+'''
+input_json_file = 'input_data.json'
+
 
 with open(input_json_file, 'r') as json_file:
   data = json.load(json_file)
@@ -18,6 +20,7 @@ with open(input_jsonl_file, 'w') as jsonl_file:
     jsonl_file.write(json.dumps(entry) + '\n')
 
 print("Conversion to JSONL complete.")
+'''
 
 file = client.files.create(
   file=open(input_jsonl_file, "rb"),

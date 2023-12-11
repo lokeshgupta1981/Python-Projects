@@ -6,7 +6,7 @@ client = OpenAI(
 )
 
 response = client.files.create(
-  file=open("input_data_prepared.jsonl", "rb"),
+  file=open("input_data.jsonl", "rb"),
   purpose="fine-tune"
 )
 

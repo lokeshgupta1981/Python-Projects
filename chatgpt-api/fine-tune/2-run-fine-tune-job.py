@@ -6,7 +6,7 @@ client = OpenAI(
 )
 
 response = client.fine_tuning.jobs.create(
-  training_file="file-6hY4l0aEXWQoHpYhvr0kX36o",
+  training_file="file-EcCrSIx3Q9qLs69Yx8HDnU3r",
   model="davinci-002"
 )
 
