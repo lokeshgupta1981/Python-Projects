@@ -1,0 +1,8 @@
+/* css for modals */
+#element-toggle {
+  display: none;
+}
+#element-toggle:checked ~ #myModal {
+  display: flex;
+}
+

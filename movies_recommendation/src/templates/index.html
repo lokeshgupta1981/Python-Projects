@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% include "header.html" %} {% block title %} Movies
+Recommendation | FLASK {% endblock %} {% block body %}
+<div>
+  <div class="level block">
+    <div class="level-item has-text-centered">
+      <div class="container mx-6 block">
+        <form action="/recommend" method="post">
+          <input
+            type="text"
+            class="input is-primary block"
+            name="movies"
+            id="movie_recom"
+            list="suggestion"
+            placeholder="select a movie from dropdown"
+          />
+          <datalist id="suggestion">
+            <option value="Toy Story (1995)"></option>
+            <option value="Jumanji (1995)"></option>
+            <option value="Grumpier Old Men (1995)"></option>
+            <option value="Nixon (1995)"></option>
+            <option value="Taxi Driver (1976)"></option>
+            <option value="Spider-Man 2 (2004)"></option>
+            <option value="I, Robot (2004)"></option>
+            <option value="X-Men: The Last Stand (2006)"></option>
+            <option value="Da Vinci Code, The (2006)"></option>
+            <option value="Superman Returns (2006)"></option>
+          </datalist>
+            <button class="button is-info">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="columns is-multiline my-6">
+    {% for row in recommend_movies %}
+    <div class="column is-3 is-desktop">
+      <div class="box">{{row}}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
