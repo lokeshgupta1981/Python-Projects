@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: delete-evicted-python-flask-app-pods
+spec:
+  schedule: "0 * * * *"  # Run every hour
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: kubectl-container
+            image: bitnami/kubectl
+            command:
+            - "/bin/bash"
+            - "-c"
+            - >
+              kubectl get pods --all-namespaces --field-selector 'status.phase==Failed' -o json | 
+              jq -r '.items[] | select(.status.reason=="Evicted") | select(.metadata.labels.app=="python-flask-app") | .metadata.name + " " + .metadata.namespace' | 
+              xargs -n 2 kubectl delete pod
+          restartPolicy: OnFailure

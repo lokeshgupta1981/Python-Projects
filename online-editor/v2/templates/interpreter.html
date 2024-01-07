@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Editor and Interactive Shell</title>
+    <style>
+        #editor, #shell {
+            width: 90%;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-family: monospace;
+        }
+        #editor {
+            height: 200px;
+        }
+        #shell {
+            height: 300px;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div id="editor" contenteditable="true">Enter your code here...</div>
+    <div id="shell" contenteditable="true">Shell Output...</div>
+    <button onclick="runCode()">Run Code</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.min.js" crossorigin="anonymous"></script>
+    <script>
+        var socket = io('http://localhost:5000'); // Adjust the URL to your server
+
+        socket.on('connect', function() {
+            console.log('Connected to the server.');
+        });
+
+        socket.on('output', function(data) {
+            var shell = document.getElementById('shell');
+            shell.innerText += '\n' + data;
+            shell.scrollTop = shell.scrollHeight; // Auto-scroll to the latest output
+        });
+
+        function runCode() {
+            var code = document.getElementById('editor').innerText;
+            socket.emit('executeCode', code);
+        }
+
+        var shell = document.getElementById('shell');
+        shell.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Prevent default newline on Enter key
+                var input = shell.innerText.split('\n').pop(); // Get the latest input
+                socket.emit('continueExecution', input);
+            }
+        });
+    </script>
+</body>
+</html>

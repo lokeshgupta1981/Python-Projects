@@ -1,0 +1,14 @@
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl apply -f hpa.yaml
+kubectl apply -f delete-evicted-app.yaml
+kubectl apply -f deny-egress-network-policy.yaml
+
+# Forward requests from 80 to 8080
+
+kubectl port-forward service/python-flask-app-service 8080:80
+
+# Debug
+
+kubectl describe pods
+

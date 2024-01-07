@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Python Compiler</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <style>
+        #editor {
+            height: 400px;
+        }
+        #output {
+            height: 400px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .run-button {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <h4>Python Code Editor</h4>
+                <div id="editor">print("Hello, world!")</div>
+                <button onclick="runCode()" class="btn btn-primary run-button">Run</button>
+            </div>
+            <div class="col-md-6">
+                <h4>Output</h4>
+                <pre id="output"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/python");
+
+        function runCode() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:8080/run", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            var code = editor.getValue();
+            var encodedData = btoa(code); // Base64 encode the code
+
+            var data = {
+                code: encodedData
+            };
+
+            xhr.onload = function () {
+                var result = JSON.parse(xhr.responseText);
+                document.getElementById("output").innerText = result.output || result.error;
+            };
+
+            xhr.send(JSON.stringify(data));
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+docker build -t python-flask-app .
+docker tag python-flask-app howtodoinjava/python-flask-app:latest
+docker login
+docker push howtodoinjava/python-flask-app:latest

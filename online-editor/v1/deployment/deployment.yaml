@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-flask-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-flask-app
+  template:
+    metadata:
+      labels:
+        app: python-flask-app
+    spec:
+      containers:
+      - name: python-flask-app
+        image: howtodoinjava/python-flask-app:latest
+        readinessProbe:
+          tcpSocket:
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        livenessProbe:
+          tcpSocket:
+            port: 5000
+          periodSeconds: 30
+        ports:
+        - containerPort: 5000
+      imagePullSecrets:
+        - name: howtodoinjava-docker-hub-secret
